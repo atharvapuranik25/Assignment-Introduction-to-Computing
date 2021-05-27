@@ -9,6 +9,7 @@ CYAN = (0, 255, 255)
 GRID_LINES = ("#007575")
 P1_COLOR = ("#EAEB87")
 P2_COLOR = ("#FF8E9C")
+BLACK = (0, 0, 0)
 TURN = 0
 points_1 = 0
 points_2 = 0
@@ -64,10 +65,10 @@ def draw_figures():
             elif board[row][col] == 0:
                 pygame.draw.circle(screen, CYAN, (int(col * 100 + 100 // 2), int(row * 100 + 100 // 2)), 20, 0)
 
-def piece():
-    global TURN
-    if TURN % 2 == 0:
-        if event.type == pygame.MOUSEBUTTONDOWN: #player1
+def move():
+    global TURN, points_1, points_2
+    if TURN % 2 == 0: # player1
+        if event.type == pygame.MOUSEBUTTONDOWN: # piece to be moved
             if event.button == 1:
                 pos = pygame.mouse.get_pos()
                 row_p = int(pos[1] // 100)
@@ -79,8 +80,9 @@ def piece():
                     print(board)
                     draw_figures()
                     pygame.display.update()
+                    return row_p, col_p
 
-            else:
+            else: # the block the selected piece is to be moved to
                 pos_n = pygame.mouse.get_pos()
                 row_n = int(pos_n[1] // 100)
                 col_n = int(pos_n[0] // 100)
@@ -88,15 +90,16 @@ def piece():
                     print("Invalid move")
                 else:
                     mark(row_n, col_n, 1)
-                    capture_ganh_1(row_n, col_n)
-                    capture_chet_1(row_n, col_n)
+                    capture_ganh_1(row_n, col_n) # check for captures
+                    capture_chet_1(row_n, col_n) # check for captures
                     print(board)
                     draw_figures()
                     pygame.display.update()
+                    game_over() # check game over condition
                     TURN += 1
 
-    else:
-        if event.type == pygame.MOUSEBUTTONDOWN: #player2
+    else: # player2
+        if event.type == pygame.MOUSEBUTTONDOWN: # piece to be moved
             if event.button == 1:
                 pos = pygame.mouse.get_pos()
                 row_p = int(pos[1] // 100)
@@ -108,8 +111,9 @@ def piece():
                     print(board)
                     draw_figures()
                     pygame.display.update()
+                    return row_p, col_p
 
-            else:
+            else: # the block the selected piece is to be moved to
                 pos_n = pygame.mouse.get_pos()
                 row_n = int(pos_n[1] // 100)
                 col_n = int(pos_n[0] // 100)
@@ -117,13 +121,13 @@ def piece():
                     print("Invalid move")
                 else:
                     mark(row_n, col_n, 2)
-                    capture_ganh_2(row_n, col_n)
-                    capture_chet_2(row_n, col_n)
+                    capture_ganh_2(row_n, col_n) # check for captures
+                    capture_chet_2(row_n, col_n) # check for captures
                     print(board)
                     draw_figures()
                     pygame.display.update()
+                    game_over() #check game over condition
                     TURN += 1
-
 
 def capture_ganh_1(row_n, col_n):
     """
@@ -315,19 +319,52 @@ def capture_chet_2(row_n, col_n):
     except IndexError:
         pass
 
+def game_over():
+    """
+    Checks points of both players
+    If equal to or more than 7
+        Declares winner
+        Game over
+    Else returns False
+    """
+    if points_1 >= 7:
+        print("Player 1 Wins!!!")
+        print("Game Over")
+        game_over_screen_1()
+    elif points_2 >= 7:
+        print("Player 2 Wins!!!")
+        print("Game Over")
+        game_over_screen_2()
+    else:
+        return False
+
+def game_over_screen_1():
+    screen.fill(CYAN)
+    font = pygame.font.SysFont("comicsansms", 40)
+    text1 = font.render("Game Over", True, GRID_LINES)
+    text2 = font.render("Player 1 Wins", True, GRID_LINES)
+    screen.blit(text1, (WIDTH/3, HEIGHT/3))
+    screen.blit(text2, (WIDTH / 3, HEIGHT / 2))
 
 
-grid()
-start()
-draw_figures()
+def game_over_screen_2():
+    screen.fill(CYAN)
+    font = pygame.font.SysFont("comicsansms", 40)
+    text1 = font.render("Game Over", True, GRID_LINES)
+    text2 = font.render("Player 2 Wins", True, GRID_LINES)
+    screen.blit(text1, (WIDTH / 3, HEIGHT / 3))
+    screen.blit(text2, (WIDTH / 3, HEIGHT / 2))
+
+
+grid() # darws a grid on screen
+start() # starting position on grid
+draw_figures() # draws starting position on screen
 
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
 
-        piece()
-
-
+        move()
 
     pygame.display.update()
