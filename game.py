@@ -124,59 +124,6 @@ def piece():
                     pygame.display.update()
                     TURN += 1
 
-def move(row_p, col_p, row_n, col_n):
-    """
-    Takes row and column no. of the piece to be moved and the place it needs to be moved to
-    Checks validity of the move
-    Moves the piece
-    """
-    global turn, points_1, points_2
-    if turn % 2 == 0:
-        print("\nPlayer 1")
-        row_p = int(input("Row no. of the piece you want to move (0-4): "))
-        col_p = int(input("Column no. of the piece you want to move (0-4): "))
-        row_n = int(input("Row no. of the block you want to move to (0-4): "))
-        col_n = int(input("Column no. of the block you want to move to (0-4): "))
-        if board[row_p][col_p] == 0 or board[row_p][col_p] == 2:
-            print("Invalid move")
-        else:
-            if row_n > row_p + 1 or row_n < row_p - 1 or col_n > col_p + 1 or col_n < col_p - 1:
-                print("Invalid move")
-            else:
-                if (row_p or row_n or col_p or col_n) > 4 or (row_p or row_n or col_p or col_n) < 0:
-                    print("Invalid move")
-                else:
-                    mark(row_p, col_p, 0)
-                    mark(row_n, col_n, 1)
-                    capture_ganh_1(row_n, col_n)
-                    capture_chet_1(row_n, col_n)
-                    turn = turn + 1
-                    print(board, "\n")
-                    print("Points P-1: ", points_1)
-                    print("Points P-2: ", points_2)
-    else:
-        print("\nPlayer 2")
-        row_p = int(input("Row no. of the piece you want to move: "))
-        col_p = int(input("Column no. of the piece you want to move: "))
-        row_n = int(input("Row no. of the block you want to move to: "))
-        col_n = int(input("Column no. of the block you want to move to: "))
-        if board[row_p][col_p] == 0 or board[row_p][col_p] == 1:
-            print("Invalid move")
-        else:
-            if row_n > row_p + 1 or row_n < row_p - 1 or col_n > col_p + 1 or col_n < col_p - 1:
-                print("Invalid move")
-            else:
-                if (row_p or row_n or col_p or col_n) > 4 or (row_p or row_n or col_p or col_n) < 0:
-                    print("Invalid move")
-                else:
-                    mark(row_p, col_p, 0)
-                    mark(row_n, col_n, 2)
-                    capture_ganh_2(row_n, col_n)
-                    capture_chet_2(row_n, col_n)
-                    turn = turn + 1
-                    print(board, "\n")
-                    print("Points P-1: ", points_1)
-                    print("Points P-2: ", points_2)
 
 def capture_ganh_1(row_n, col_n):
     """
