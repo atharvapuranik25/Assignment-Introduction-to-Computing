@@ -1,3 +1,10 @@
+"""
+This module is a grid based game inspired from a game called Co Ganh
+It is played on a 5x5 grid
+It involves 2 players each with 8 pieces
+First one to capture 7 of the other pieces wins
+"""
+
 import pygame, sys
 import numpy as np
 
@@ -5,21 +12,28 @@ pygame.init()
 
 ROWS, COLS = 5, 5
 WIDTH, HEIGHT = 500, 500
+
+#colors
 CYAN = (0, 255, 255)
 GRID_LINES = "#007575"
 P1_COLOR = "#EAEB87"
 P2_COLOR = "#FF8E9C"
+
+#global variables
 TURN = 0
 points_1 = 0
 points_2 = 0
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Ganh')
-screen.fill(CYAN)
+screen = pygame.display.set_mode((WIDTH, HEIGHT)) # creating the screen
+pygame.display.set_caption('Ganh') # caption for the game
+screen.fill(CYAN) # filling the screen with color
 
 board = np.zeros((ROWS, COLS))  # creating a grid of zeroes
 
 def grid(): # drawing grid on screen
+    """
+    This function creates the grid on the screen 
+    """
     # horizontal lines
     pygame.draw.line(screen, GRID_LINES, (0, 100), (500, 100), 5)
     pygame.draw.line(screen, GRID_LINES, (0, 200), (500, 200), 5)
@@ -33,9 +47,11 @@ def grid(): # drawing grid on screen
     pygame.draw.line(screen, GRID_LINES, (400, 0), (400, 500), 5)
 
 def mark(row, col, player):  # marking positions on grid
+    """This function defines a way to mark pieces on the board"""
     board[row][col] = player
 
 def start():  # starting position
+    """This function creates the starting position on the board"""
     mark(0, 0, 1)
     mark(1, 0, 1)
     mark(2, 0, 1)
@@ -53,8 +69,8 @@ def start():  # starting position
     mark(4, 3, 2)
     mark(4, 2, 2)
 
-
 def draw_figures():
+    """This function draws pieces on the screen according to the numbers on the board"""
     for row in range(ROWS):
         for col in range(COLS):
             if board[row][col] == 1:
@@ -65,6 +81,11 @@ def draw_figures():
                 pygame.draw.circle(screen, CYAN, (int(col * 100 + 100 // 2), int(row * 100 + 100 // 2)), 20, 0)
 
 def move():
+    """
+    Takes row and column no. of the piece to be moved and the place it needs to be moved to
+    Checks validity of the move
+    Moves the piece
+    """
     global TURN, points_1, points_2
     if TURN % 2 == 0: # player1
         if event.type == pygame.MOUSEBUTTONDOWN: # piece to be moved
@@ -338,6 +359,7 @@ def game_over():
         return False
 
 def game_over_screen_1():
+    """displays the game over screen for player 1"""
     screen.fill(CYAN)
     font = pygame.font.SysFont("comicsansms", 40)
     text1 = font.render("Game Over", GRID_LINES)
@@ -345,8 +367,8 @@ def game_over_screen_1():
     screen.blit(text1, (WIDTH/3, HEIGHT/3))
     screen.blit(text2, (WIDTH / 3, HEIGHT / 2))
 
-
 def game_over_screen_2():
+    """displays the game over screen for player 2"""
     screen.fill(CYAN)
     font = pygame.font.SysFont("comicsansms", 40)
     text1 = font.render("Game Over", True, GRID_LINES)
@@ -354,12 +376,11 @@ def game_over_screen_2():
     screen.blit(text1, (WIDTH / 3, HEIGHT / 3))
     screen.blit(text2, (WIDTH / 3, HEIGHT / 2))
 
-
 grid() # darws a grid on screen
 start() # starting position on grid
 draw_figures() # draws starting position on screen
 
-while True:
+while True: # main loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
