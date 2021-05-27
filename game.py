@@ -32,7 +32,7 @@ board = np.zeros((ROWS, COLS))  # creating a grid of zeroes
 
 def grid(): # drawing grid on screen
     """
-    This function creates the grid on the screen 
+    This function creates the grid on the screen
     """
     # horizontal lines
     pygame.draw.line(screen, GRID_LINES, (0, 100), (500, 100), 5)
@@ -97,10 +97,8 @@ def move():
                     print("Invalid move")
                 else:
                     mark(row_p, col_p, 0)
-                    print(board)
                     draw_figures()
                     pygame.display.update()
-                    return row_p, col_p
 
             else: # the block the selected piece is to be moved to
                 pos_n = pygame.mouse.get_pos()
@@ -112,7 +110,6 @@ def move():
                     mark(row_n, col_n, 1)
                     capture_ganh_1(row_n, col_n) # check for captures
                     capture_chet_1(row_n, col_n) # check for captures
-                    print(board)
                     draw_figures()
                     pygame.display.update()
                     game_over() # check game over condition
@@ -128,10 +125,8 @@ def move():
                     print("Invalid move")
                 else:
                     mark(row_p, col_p, 0)
-                    print(board)
                     draw_figures()
                     pygame.display.update()
-                    return row_p, col_p
 
             else: # the block the selected piece is to be moved to
                 pos_n = pygame.mouse.get_pos()
@@ -143,7 +138,6 @@ def move():
                     mark(row_n, col_n, 2)
                     capture_ganh_2(row_n, col_n) # check for captures
                     capture_chet_2(row_n, col_n) # check for captures
-                    print(board)
                     draw_figures()
                     pygame.display.update()
                     game_over() #check game over condition
@@ -348,12 +342,8 @@ def game_over():
     Else returns False
     """
     if points_1 >= 7:
-        print("Player 1 Wins!!!")
-        print("Game Over")
         game_over_screen_1()
     elif points_2 >= 7:
-        print("Player 2 Wins!!!")
-        print("Game Over")
         game_over_screen_2()
     else:
         return False
@@ -361,24 +351,25 @@ def game_over():
 def game_over_screen_1():
     """displays the game over screen for player 1"""
     screen.fill(CYAN)
-    font = pygame.font.SysFont("comicsansms", 40)
-    text1 = font.render("Game Over", GRID_LINES)
-    text2 = font.render("Player 1 Wins", GRID_LINES)
-    screen.blit(text1, (WIDTH/3, HEIGHT/3))
+    font = pygame.font.SysFont("arial", 40)
+    text1 = font.render("Game Over", True, GRID_LINES)
+    text2 = font.render("Player 1 Wins", True, GRID_LINES)
+    screen.blit(text1, (WIDTH / 3, HEIGHT / 3))
     screen.blit(text2, (WIDTH / 3, HEIGHT / 2))
 
 def game_over_screen_2():
     """displays the game over screen for player 2"""
     screen.fill(CYAN)
-    font = pygame.font.SysFont("comicsansms", 40)
+    font = pygame.font.SysFont("arial", 40)
     text1 = font.render("Game Over", True, GRID_LINES)
     text2 = font.render("Player 2 Wins", True, GRID_LINES)
     screen.blit(text1, (WIDTH / 3, HEIGHT / 3))
     screen.blit(text2, (WIDTH / 3, HEIGHT / 2))
 
-grid() # darws a grid on screen
-start() # starting position on grid
-draw_figures() # draws starting position on screen
+grid()  # darws a grid on screen
+start()  # starting position on grid
+draw_figures()  # draws starting position on screen
+
 
 while True: # main loop
     for event in pygame.event.get():
