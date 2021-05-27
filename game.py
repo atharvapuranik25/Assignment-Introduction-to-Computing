@@ -6,10 +6,9 @@ pygame.init()
 ROWS, COLS = 5, 5
 WIDTH, HEIGHT = 500, 500
 CYAN = (0, 255, 255)
-GRID_LINES = ("#007575")
-P1_COLOR = ("#EAEB87")
-P2_COLOR = ("#FF8E9C")
-BLACK = (0, 0, 0)
+GRID_LINES = "#007575"
+P1_COLOR = "#EAEB87"
+P2_COLOR = "#FF8E9C"
 TURN = 0
 points_1 = 0
 points_2 = 0
@@ -341,8 +340,8 @@ def game_over():
 def game_over_screen_1():
     screen.fill(CYAN)
     font = pygame.font.SysFont("comicsansms", 40)
-    text1 = font.render("Game Over", True, GRID_LINES)
-    text2 = font.render("Player 1 Wins", True, GRID_LINES)
+    text1 = font.render("Game Over", GRID_LINES)
+    text2 = font.render("Player 1 Wins", GRID_LINES)
     screen.blit(text1, (WIDTH/3, HEIGHT/3))
     screen.blit(text2, (WIDTH / 3, HEIGHT / 2))
 
